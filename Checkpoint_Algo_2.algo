@@ -1,0 +1,117 @@
+//Problem 2 Solution 1
+
+ALGORITHM algorithm_sum2_solution1
+VAR
+    set_1 : ARRAY_OF INTEGER[5];
+    set_2 : ARRAY_OF INTEGER[5];
+    sum : INTEGER :=0;
+    i,j: INTEGER;
+BEGIN
+    set_1:= {12,13,6,10};
+    set_2:= {13,10,16,15};
+    FOR i FROM 0 TO set_1.length-1 STEP  DO
+        FOR j FROM 0 TO set_2.length-1 STEP  DO
+            IF (set_2[j]=set_1[i]) THEN
+                sum := sum + set_1[i]+set_2[j]; 
+                Write(set_1[i],"is a common element");
+            END_IF
+        END_FOR
+    END_FOR
+     Write("The sum is:",sum);
+END
+
+//Problem 1 Solution 1
+
+ALGORITHM algorithm_sum1_solution1
+VAR
+    set_1 : ARRAY_OF INTEGER[5];
+    set_2 : ARRAY_OF INTEGER[5];
+    sum : INTEGER :=0;
+    i,j: INTEGER;
+BEGIN
+    set_1:= {3,1,7,9};
+    set_2:= {2,4,1,9,3};
+    FOR i FROM 0 TO set_1.length-1 STEP  DO
+        FOR j FROM 0 TO set_2.length-1 STEP  DO
+            IF (set_2[j]<>set_1[i]) THEN
+                sum := sum + set_1[i];
+                Write(set_1[i],"is a distinct element"); 
+            END_IF
+        END_FOR
+    END_FOR
+     Write("The sum is:",sum);
+END
+
+//Problem 2 Solution 2
+
+ALGORITHM algorithm_sum2_solution2
+VAR
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    set_1 : ARRAY_OF INTEGER[5];
+    set_2 : ARRAY_OF INTEGER[5];
+    sum : INTEGER :=0;
+    count : INTEGER :=1;
+    i,j,key: INTEGER;
+BEGIN
+    set_1:= {12,13,6,10};
+    set_2:= {13,10,16,15};
+    FOR i FROM 0 TO set_1.length-1 STEP  DO
+        htab.insert(set_1[i],1);
+    END_FOR
+    FOR j FROM 0 TO set_2.length-1 STEP  DO
+        IF (htab.lookup(set_2[j]=TRUE)) THEN
+            count:= count+1;
+            key:=htab.getKeys(set_2[j]);
+            htab.insert(key,count);
+        ELSE
+            htab.insert(set_2[j],1);
+        END_IF
+    END_FOR
+    
+    FOR i FROM 0 TO set_1.length-1 STEP  DO
+        IF (htab.get(set_1[i])>1) THEN
+            sum:= sum + (htab.getKeys(set_1[i]) * htab.get(set_1[i]));
+            Write(htab.getKeys(set_1[i]),"is a common element");
+        END_IF
+    END_FOR
+    Write("The sum is:",sum);
+    
+END
+
+//Problem 1 Solution 2
+
+ALGORITHM algorithm_sum1_solution2
+VAR
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    set_1 : ARRAY_OF INTEGER[5];
+    set_2 : ARRAY_OF INTEGER[5];
+    sum : INTEGER :=0;
+    count : INTEGER :=1;
+    i,j,key: INTEGER;
+BEGIN
+    set_1:= {3,1,7,9};
+    set_2:= {2,4,1,9,3};
+    FOR i FROM 0 TO set_1.length-1 STEP  DO
+        htab.insert(set_1[i],1);
+    END_FOR
+    FOR j FROM 0 TO set_2.length-1 STEP  DO
+        IF (htab.lookup(set_2[j]=FALSE)) THEN
+            htab.insert(set_2[j],1);
+        ELSE
+            htab.insert(set_2[j],1);
+            count:= count+1;
+            key:=htab.getKeys(set_2[j]);
+            htab.insert(key,count);
+        END_IF
+    END_FOR
+    
+    FOR i FROM 0 TO set_1.length-1 STEP  DO
+        IF (htab.get(set_1[i])=1) THEN
+            sum:= sum + htab.getKeys(set_1[i]);
+            Write(htab.getKeys(set_1[i]),"is a distinct element");
+        END_IF
+    END_FOR
+    Write("The sum is:",sum);
+    
+END
+
